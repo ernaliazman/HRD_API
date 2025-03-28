@@ -6,5 +6,7 @@ namespace hrd_backend.Interface
     {
         public string AddOrientationDetails(AddOrientation tr);
         public Orientation GetOrientationList(string refNo);
+
+        public void UpdateOrtHR(AddOrientationHR tr);
     }
 }

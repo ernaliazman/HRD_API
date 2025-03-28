@@ -90,6 +90,7 @@ namespace hrd_backend.Controllers
                     message = $"Successfully updated.",
                     result = training
                 });
+                
             }
             catch (Exception ex)
             {

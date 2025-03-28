@@ -249,9 +249,101 @@ namespace hrd_backend.Data
 
         }
 
+        public SuperiorDetails get_verifier(string employee_id)
+        {
+            SuperiorDetails vf = new SuperiorDetails();
+
+            string connection = _config["ConnectionStrings:ServicePortalConnection"];
+            SqlConnection conn = new SqlConnection(connection);
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("sp_EC_GetVerifierEmail");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            cmd.Parameters.AddWithValue("@REQUESTER_ID", employee_id);
+
+            SqlDataReader rd = cmd.ExecuteReader();
+
+            while (rd.Read())
+            {
+                vf = new SuperiorDetails
+                {
+                    //verify_id = rd["EMP_ID"].ToString(),
+                    id = (Guid)rd["USERNAME_ID"],
+                    email = rd["EMAIL_ADDRESS"].ToString(),
+                    name = rd["NAME"].ToString(),
+                    department = rd["DEPARTMENT"].ToString(),
+                    designation = rd["POSITION_TITLE"].ToString(),
+                };
+            }
+            conn.Close();
+            return vf;
+        }
+
+        public SuperiorDetails get_checker(Guid usernameId)
+        {
+            SuperiorDetails ck = new SuperiorDetails();
+
+            string connection = _config["ConnectionStrings:ServicePortalConnection"];
+            SqlConnection conn = new SqlConnection(connection);
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("sp_EC_GetChecker");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            cmd.Parameters.AddWithValue("@USERNAME_ID", usernameId);
+
+            SqlDataReader rd = cmd.ExecuteReader();
+
+            while (rd.Read())
+            {
+                ck = new SuperiorDetails
+                {
+                    id = (Guid)rd["USERNAME_ID"],
+                    email = rd["EMAIL_ADDRESS"].ToString(),
+                    name = rd["NAME"].ToString(),
+                    department = rd["DEPARTMENT"].ToString(),
+                    designation = rd["POSITION_TITLE"].ToString(),
+                };
+            }
+            conn.Close();
+            return ck;
+        }
+
+        public SuperiorDetails get_approver1(string emp_id)
+        {
+            SuperiorDetails ap = new SuperiorDetails();
+
+            string connection = _config["ConnectionStrings:ServicePortalConnection"];
+            SqlConnection conn = new SqlConnection(connection);
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("sp_EC_GetApprover1");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            cmd.Parameters.AddWithValue("@EMP_ID", emp_id);
+
+            SqlDataReader rd = cmd.ExecuteReader();
+
+            while (rd.Read())
+            {
+                ap = new SuperiorDetails
+                {
+                    id = (Guid)rd["USERNAME_ID"],
+                    email = rd["EMAIL_ADDRESS"].ToString(),
+                    name = rd["NAME"].ToString(),
+                    department = rd["DEPARTMENT"].ToString(),
+                    designation = rd["POSITION_TITLE"].ToString(),
+                };
+            }
+            conn.Close();
+            return ap;
+        }
+
+
 
 
     }
 
-    }
+}
 

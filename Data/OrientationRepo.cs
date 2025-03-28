@@ -196,6 +196,65 @@ namespace hrd_backend.Data
                 return null;
             }
         }
+
+        public void UpdateOrtHR(AddOrientationHR tr)
+        {
+            //string date = DateTime.Now.ToString("MMMyy");
+            //var runningNo = _dbRepo.GetRunningNumber(date, "sp_HRD_GetNumberORT");
+
+
+
+            //string refNo = "ORT-" + date + "-" + runningNo;
+            string connection = _config["ConnectionStrings:ServicePortalConnection"];
+            SqlConnection conn = new SqlConnection(connection);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("sp_HRD_UPDATEORTHR");
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+            cmd.Parameters.AddWithValue("@refNo", tr.refNo);
+            cmd.Parameters.AddWithValue("@email", tr.HR_Email);
+            cmd.Parameters.AddWithValue("@phone", tr.HR_PhoneNo);
+            cmd.Parameters.AddWithValue("@namecard", tr.HR_NameCard);
+            cmd.Parameters.AddWithValue("@desktop", tr.HR_Desktop);
+            cmd.Parameters.AddWithValue("@laptop", tr.HR_Laptop);
+            cmd.Parameters.AddWithValue("@arrange", tr.HR_SitArg);
+            cmd.Parameters.AddWithValue("@ext", tr.HR_PhoneExt);
+            cmd.Parameters.AddWithValue("@pin", tr.HR_PhonePin);
+            cmd.Parameters.AddWithValue("@fb", tr.HR_FB);
+            cmd.Parameters.AddWithValue("@tagline", tr.HR_Tagline);
+            cmd.Parameters.AddWithValue("@welcome", tr.welcomingPhoto);
+            cmd.Parameters.AddWithValue("@ort", tr.orientBrief);
+            cmd.Parameters.AddWithValue("@company", tr.compBrief);
+            cmd.Parameters.AddWithValue("@panel", tr.panelClinicInfo);
+            cmd.Parameters.AddWithValue("@medical", tr.mcNote);
+            cmd.Parameters.AddWithValue("@tardiness", tr.tardiness);
+            cmd.Parameters.AddWithValue("@forms", tr.hraForm);
+            cmd.Parameters.AddWithValue("@phoneusage", tr.phoneUsage);
+            cmd.Parameters.AddWithValue("@qessit", tr.qessitBrief);
+            cmd.Parameters.AddWithValue("@workplace", tr.workplaceTour);
+            cmd.Parameters.AddWithValue("@facility", tr.facilityComp);
+            cmd.Parameters.AddWithValue("@honesty", tr.honestyCorner);
+            cmd.Parameters.AddWithValue("@pinno", tr.empItems);
+            cmd.Parameters.AddWithValue("@fbgroup", tr.fbGroup);
+            cmd.Parameters.AddWithValue("@fbpost", tr.fbPost);
+          
+            cmd.Parameters.AddWithValue("@id", tr.approverId);
+            cmd.Parameters.AddWithValue("@requesterName", tr.approverName);
+           // cmd.Parameters.AddWithValue("@requesterdept", tr.app);
+            cmd.Parameters.AddWithValue("@designation", tr.approverDesignation);
+            // cmd.Parameters.AddWithValue("@requesterdept", tr.requesterDesignation);
+
+            cmd.Parameters.AddWithValue("@date", DateTime.Now.ToString("f", culture));
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+
+           
+
+        }
     }
 }
 

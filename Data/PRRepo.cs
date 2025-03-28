@@ -1,4 +1,5 @@
 ﻿using hrd_backend.Interface;
+using hrd_backend.Model;
 using hrd_backend.Model.Orientation_Checklist;
 using hrd_backend.Model.Personnel_R;
 using hrd_backend.Model.Training_Evaluation;
@@ -288,6 +289,35 @@ namespace hrd_backend.Data
 
                 cmd.ExecuteNonQuery();
             }
+
+            conn.Close();
+
+        }
+
+        public void UpdateHodPR(UpdateData tr, string status)
+        {
+            //string date = DateTime.Now.ToString("MMMyy");
+            //var runningNo = GetRunningNumber(date, "sp_HRD_GetNumberTR");
+
+
+
+            //string refNo = "TE-" + date + "-" + runningNo;
+            string connection = _config["ConnectionStrings:ServicePortalConnection"];
+            SqlConnection conn = new SqlConnection(connection);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("sp_HRD_UPDATEPR_HOD");
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+            cmd.Parameters.AddWithValue("@refNo", tr.refNo);
+            cmd.Parameters.AddWithValue("@data", tr.data);
+            cmd.Parameters.AddWithValue("@status", status);
+
+            // cmd.Parameters.AddWithValue("@verifierId", tr.verifierId);
+            cmd.Parameters.AddWithValue("@date", DateTime.Now.ToString("f", culture));
+
+            cmd.ExecuteNonQuery();
 
             conn.Close();
 

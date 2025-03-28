@@ -112,5 +112,36 @@ namespace hrd_backend.Controllers
             }
 
         }
+
+        [HttpPut]
+        [Route("HR")]
+        public async Task<IActionResult> UpdateHR([FromBody] UpdateHodOJT ojt)
+        {
+            try
+            {
+                var status = "Completed by Superior. Waiting for HR";
+                _dbRepo.UpdateHod_OJT(ojt, status);
+
+
+                return Ok(
+             new APIResponse<UpdateHodOJT>()
+             {
+                 status_code = 200,
+                 message = $"Successfully updated.",
+                 result = ojt
+             });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new APIResponse<string>()
+                {
+                    status_code = 400,
+                    message = "Something is wrong!",
+                    result = ex.Message
+                });
+
+            }
+
+        }
     }
 }

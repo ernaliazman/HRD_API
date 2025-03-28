@@ -1,4 +1,5 @@
-﻿using hrd_backend.Model.Personnel_R;
+﻿using hrd_backend.Model;
+using hrd_backend.Model.Personnel_R;
 
 namespace hrd_backend.Interface
 {
@@ -11,5 +12,7 @@ namespace hrd_backend.Interface
         public string AddPRData(AddPR tr);
         public void AddPR_Job(AddPR tr, string refNo);
         public void AddPR_Personal(AddPR tr, string refNo);
+
+        public void UpdateHodPR(UpdateData data, string status);
     }
 }

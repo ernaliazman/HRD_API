@@ -129,5 +129,38 @@ namespace hrd_backend.Controllers
 
 
             }
+        //[HttpPut]
+        //[Route("HR")]
+        //public async Task<IActionResult> UpdateHR([FromBody] UpdateData jd)
+        //{
+
+        //    try
+        //    {
+        //        var status = "Completed by Approver";
+
+        //        _dbRepo.UpdateHRJD(jd, status);
+
+
+
+
+        //        return Ok(new APIResponse<UpdateData>()
+        //        {
+        //            status_code = 200,
+        //            message = $"Successfully updated.",
+        //            result = jd
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Ok(new APIResponse<string>()
+        //        {
+        //            status_code = 400,
+        //            message = "Something is wrong!",
+        //            result = ex.Message
+        //        });
+        //    }
+
+
+        //}
     }
 }

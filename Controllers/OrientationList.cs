@@ -11,72 +11,98 @@ namespace hrd_backend.Controllers
     [ApiController]
     public class OrientationList : ControllerBase
     {
-       
-            public IOrientationRepo _dbRepo;
 
-            public OrientationList(IOrientationRepo dbRepo)
+        public IOrientationRepo _dbRepo;
+
+        public OrientationList(IOrientationRepo dbRepo)
+        {
+            _dbRepo = dbRepo;
+        }
+
+
+
+        [HttpGet]
+        [Route("{refNo}")]
+        public async Task<IActionResult> GetOrientationDetails([FromRoute] string refNo)
+        {
+            try
             {
-                _dbRepo = dbRepo;
+                var result = _dbRepo.GetOrientationList(refNo);
+                return Ok(
+                     new APIResponse<Orientation>()
+                     {
+                         status_code = 200,
+                         message = $"Successfully retrieved.",
+                         result = result
+                     });
+
             }
-
-
-
-            [HttpGet]
-            [Route("{refNo}")]
-            public async Task<IActionResult> GetOrientationDetails([FromRoute] string refNo)
+            catch (Exception ex)
             {
-                try
+                return Ok(new APIResponse<string>()
                 {
-                    var result = _dbRepo.GetOrientationList(refNo);
-                    return Ok(
-                         new APIResponse<Orientation>()
-                         {
-                             status_code = 200,
-                             message = $"Successfully retrieved.",
-                             result = result
-                         });
+                    status_code = 400,
+                    message = ex.Message,
+                    result = ex.Message
+                });
 
-                }
-                catch (Exception ex)
-                {
-                    return Ok(new APIResponse<string>()
-                    {
-                        status_code = 400,
-                        message = ex.Message,
-                        result = ex.Message
-                    });
-
-                }
             }
+        }
 
 
-            [HttpPost]
-            public async Task<IActionResult> AddTrainingDetails([FromBody] AddOrientation training)
+        [HttpPost]
+        public async Task<IActionResult> AddTrainingDetails([FromBody] AddOrientation training)
+        {
+            try
             {
-                try
-                {
 
-                    var refNo = _dbRepo.AddOrientationDetails(training);
+                var refNo = _dbRepo.AddOrientationDetails(training);
 
-                    return Ok(new APIResponse<AddOrientation>()
-                    {
-                        status_code = 200,
-                        message = $"Successfully inserted. Reference Number: {refNo}",
-                        result = training
-                    });
-                }
-                catch (Exception ex)
+                return Ok(new APIResponse<AddOrientation>()
                 {
-                    return Ok(new APIResponse<string>()
-                    {
-                        status_code = 400,
-                        message = ex.Message,
-                        result = ex.Message
-                    });
-                }
+                    status_code = 200,
+                    message = $"Successfully inserted. Reference Number: {refNo}",
+                    result = training
+                });
             }
+            catch (Exception ex)
+            {
+                return Ok(new APIResponse<string>()
+                {
+                    status_code = 400,
+                    message = ex.Message,
+                    result = ex.Message
+                });
+            }
+        }
 
+        [HttpPut]
+        [Route("HR")]
+        public async Task<IActionResult> UpdateHR([FromBody] AddOrientationHR training)
+        {
+            try
+            {
+
+                 _dbRepo.UpdateOrtHR(training);
+
+                return Ok(new APIResponse<AddOrientationHR>()
+                {
+                    status_code = 200,
+                    message = $"Successfully updated.",
+                    result = training
+                });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new APIResponse<string>()
+                {
+                    status_code = 400,
+                    message = ex.Message,
+                    result = ex.Message
+                });
+            }
 
         }
     }
+}
 

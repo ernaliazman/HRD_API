@@ -8,7 +8,7 @@
         public string HR_Tagline { get; set; }
         public string HR_FB { get; set; }
         //public string HR_ChineseName { get; set; }
-        //public string HR_PhoneNo { get; set; }
+        public string HR_PhoneNo { get; set; }
         public string HR_Desktop { get; set; }
         public string HR_Laptop { get; set; }
         public string HR_Other { get; set; }
